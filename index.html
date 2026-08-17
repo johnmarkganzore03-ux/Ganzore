@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Calculator</title>
+  <style>
+  
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .calculator {
+      background: linear-gradient(145deg, #253041, #161d28);
+      padding: 30px;
+      border-radius: 24px;
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+      width: 320px;
+      border: 1px solid #2e3d52;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 0 0 4px 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: #f1f5f9;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .date {
+      text-align: center;
+      font-size: 11px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 24px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #38bdf8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #0284c7;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      box-sizing: border-box;
+      background: #000000;
+      color: #f8fafc;
+      box-shadow: 0 0 10px rgba(2, 132, 199, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .buttons button {
+      padding: 14px;
+      font-size: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      background: linear-gradient(180deg, #3d4b5f 0%, #2c3746 100%);
+      color: #94a3b8;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .buttons button.active-btn, .buttons button:hover {
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 15px rgba(14, 165, 233, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .buttons button:active {
+      transform: translateY(1px);
+    }
+
+    .result {
+      background: #000000;
+      border: 2px solid #22c55e;
+      border-radius: 10px;
+      padding: 14px 18px;
+      text-align: right;
+      font-size: 32px;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      margin-bottom: 20px;
+      min-height: 38px;
+      color: #22c55e;
+      text-shadow: 0 0 12px rgba(34, 197, 94, 0.65);
+      box-shadow: inset 0 0 15px rgba(34, 197, 94, 0.15), 0 0 10px rgba(34, 197, 94, 0.2);
+      overflow-x: auto;
+    }
+
+    .clear-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(180deg, #f43f5e 0%, #be123c 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(244, 63, 94, 0.25);
+      transition: all 0.15s ease;
+    }
+
+    .clear-btn:hover {
+      background: linear-gradient(180deg, #fda4af 0%, #e11d48 100%);
+      box-shadow: 0 0 18px rgba(244, 63, 94, 0.55);
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <h2>Calculator</h2>
+  <div class="date" id="dateDisplay"></div>
+
+  <div class="input-group">
+    <label>Value 1</label>
+    <input type="number" id="val1" placeholder="0" />
+  </div>
+
+  <div class="input-group">
+    <label>Value 2</label>
+    <input type="number" id="val2" placeholder="0" />
+  </div>
+
+  <div class="buttons">
+    <button class="active-btn" onclick="compute('add')">+</button>
+    <button onclick="compute('sub')">−</button>
+    <button onclick="compute('mul')">×</button>
+    <button onclick="compute('div')">÷</button>
+  </div>
+
+  <div class="result" id="result">—</div>
+
+  <button class="clear-btn" onclick="clearAll()">🗑 Clear</button>
+</div>
+
+<script>
+  window.onload = function() {
+    alert("\nHello! This is my personal CALCULATOR.\nThank you for visiting.");
+
+    const today = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('dateDisplay').textContent = today.toLocaleDateString('en-US', options);
+  };
+
+  function compute(op) {
+    const a = parseFloat(document.getElementById('val1').value);
+    const b = parseFloat(document.getElementById('val2').value);
+    const result = document.getElementById('result');
+
+    if (isNaN(a) || isNaN(b)) {
+      result.textContent = 'ERROR';
+      return;
+    }
+
+    let answer;
+    if (op === 'add') answer = a + b;
+    if (op === 'sub') answer = a - b;
+    if (op === 'mul') answer = a * b;
+    if (op === 'div') {
+      if (b === 0) { result.textContent = 'DIV BY 0'; return; }
+      answer = a / b;
+    }
+
+    result.textContent = Number(parseFloat(answer.toFixed(10))).toLocaleString('en-US', {maximumFractionDigits: 10});
+  }
+
+  function clearAll() {
+    document.getElementById('val1').value = '';
+    document.getElementById('val2').value = '';
+    document.getElementById('result').textContent = '—';
+  }
+</script>
+
+</body>
+</html>
